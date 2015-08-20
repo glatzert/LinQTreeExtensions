@@ -118,13 +118,37 @@ namespace ZDV.LinQ.Hierarchy.Tests
             Assert.True(expectedNodes.All(node => resultNodes.Contains(node)));
         }
 
-        [Fact(DisplayName = "Test getting ancestors from root node.")]
+        [Fact(DisplayName = "Test getting ancestors and self")]
+        public void AncestorsAndSelf()
+        {
+            var startNode = _tree[1111];
+            var expectedNodes = new[] { 1111, 111, 11, 1 };
+
+            var result = HierarchyWalker.AncestorsAndSelf(startNode, n => n.Parent);
+            var resultNodes = result.Select(n => n.NodeId).ToList();
+
+            Assert.True(expectedNodes.Length == resultNodes.Count);
+            Assert.True(expectedNodes.All(node => resultNodes.Contains(node)));
+        }
+
+        [Fact(DisplayName = "Test getting ancestors and root node.")]
         public void AncestorsFromRoot()
         {
             var startNode = _tree[1];
             
             var result = HierarchyWalker.Ancestors(startNode, n => n.Parent);
             Assert.True(!result.Any());
+        }
+
+        [Fact(DisplayName = "Test getting ancestors self from from root node.")]
+        public void AncestorsAndSelfFromRoot()
+        {
+            var startNode = _tree[1];
+
+            var result = HierarchyWalker.AncestorsAndSelf(startNode, n => n.Parent).SingleOrDefault();
+
+            Assert.True(result != null);
+            Assert.True(result.NodeId == 1);
         }
 
         [Fact(DisplayName = "Test getting descendants")]
@@ -140,6 +164,19 @@ namespace ZDV.LinQ.Hierarchy.Tests
             Assert.True(expectedNodes.All(node => resultNodes.Contains(node)));
         }
 
+        [Fact(DisplayName = "Test getting descendants and self")]
+        public void DescendantsAndSelf()
+        {
+            var startNode = _tree[1111];
+            var expectedNodes = new[] { 1111, 11111, 11112, 11113, 111111, 111112 };
+
+            var result = HierarchyWalker.DescendantsAndSelf(startNode, n => n.Children);
+            var resultNodes = result.Select(n => n.NodeId).ToList();
+
+            Assert.True(expectedNodes.Length == resultNodes.Count);
+            Assert.True(expectedNodes.All(node => resultNodes.Contains(node)));
+        }
+
         [Fact(DisplayName = "Test getting descendants from leave node")]
         public void DescendantsFromLeave()
         {
@@ -147,6 +184,62 @@ namespace ZDV.LinQ.Hierarchy.Tests
             
             var result = HierarchyWalker.Descendants(startNode, n => n.Children);
             Assert.True(!result.Any());
+        }
+
+        [Fact(DisplayName = "Test getting descendants and self from leave node")]
+        public void DescendantsAndSelfFromLeave()
+        {
+            var startNode = _tree[111112];
+
+            var result = HierarchyWalker.DescendantsAndSelf(startNode, n => n.Children).SingleOrDefault();
+
+            Assert.True(result != null);
+            Assert.True(result.NodeId == 111112);
+        }
+
+        [Fact(DisplayName = "Test getting siblings")]
+        public void Siblings()
+        {
+            var startNode = _tree[1213];
+            var expectedNodes = new[] { 1211, 1212, 1214, 1215 };
+
+            var result = HierarchyWalker.Siblings(startNode, n => n.Parent, n => n.Children);
+            var resultNodes = result.Select(n => n.NodeId).ToList();
+
+            Assert.True(expectedNodes.Length == resultNodes.Count);
+            Assert.True(expectedNodes.All(node => resultNodes.Contains(node)));
+        }
+
+        [Fact(DisplayName = "Test getting siblings and self")]
+        public void SiblingsAndSelf()
+        {
+            var startNode = _tree[1213];
+            var expectedNodes = new[] { 1211, 1212, 1213, 1214, 1215 };
+
+            var result = HierarchyWalker.SiblingsAndSelf(startNode, n => n.Parent, n => n.Children);
+            var resultNodes = result.Select(n => n.NodeId).ToList();
+
+            Assert.True(expectedNodes.Length == resultNodes.Count);
+            Assert.True(expectedNodes.All(node => resultNodes.Contains(node)));
+        }
+
+        [Fact(DisplayName = "Test getting siblings from root")]
+        public void SiblingsFromRoot()
+        {
+            var startNode = _tree[1];
+
+            var result = HierarchyWalker.Siblings(startNode, n => n.Parent, n => n.Children);
+            Assert.True(!result.Any());
+        }
+
+        [Fact(DisplayName = "Test getting siblings and self from root")]
+        public void SiblingsAndSelfFromRoot()
+        {
+            var startNode = _tree[1];
+            var result = HierarchyWalker.SiblingsAndSelf(startNode, n => n.Parent, n => n.Children).SingleOrDefault();
+
+            Assert.True(result != null);
+            Assert.True(result.NodeId == 1);
         }
     }
 }
