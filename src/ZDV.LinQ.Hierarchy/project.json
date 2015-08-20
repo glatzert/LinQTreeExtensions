@@ -1,0 +1,22 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "ZDV.LinQ.Hierarchy Class Library",
+  "authors": [ "Thomas Glatzer, Johannes Gutenberg University Mainz" ],
+  "tags": [ "LinQ", "Tree", "Hierarchy", "Recursive" ],
+  "projectUrl": "https://github.com/glatzert/LinQTreeExtensions",
+  "licenseUrl": "https://github.com/glatzert/LinQTreeExtensions/blob/master/LICENSE",
+
+  "dependencies": {
+    "System.Runtime": "4.0.20-*",
+    "Microsoft.CSharp": "4.0.0-*"
+  },
+
+  "frameworks": {
+    "dotnet": {
+      "dependencies": {
+        "System.Collections": "4.0.0",
+        "System.Linq": "4.0.0"
+      }
+    }
+  }
+}
