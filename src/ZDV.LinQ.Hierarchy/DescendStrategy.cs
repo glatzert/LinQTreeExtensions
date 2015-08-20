@@ -1,4 +1,4 @@
-﻿namespace ZDV.LinQ.Tree
+﻿namespace ZDV.LinQ.Hierarchy
 {
     public enum DescendStrategy
     {

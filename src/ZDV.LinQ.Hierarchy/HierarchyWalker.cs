@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 // ReSharper disable UnusedMember.Global
-namespace ZDV.LinQ.Tree
+namespace ZDV.LinQ.Hierarchy
 {
     public static class HierarchyWalker
     {

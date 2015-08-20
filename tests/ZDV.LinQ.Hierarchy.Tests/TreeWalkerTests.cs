@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace ZDV.LinQ.Tree.Tests
+namespace ZDV.LinQ.Hierarchy.Tests
 {
     public class TreeNode
     {

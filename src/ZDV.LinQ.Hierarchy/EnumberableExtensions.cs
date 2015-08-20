@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 // ReSharper disable MemberCanBePrivate.Global
-namespace ZDV.LinQ.Tree
+namespace ZDV.LinQ.Hierarchy
 {
     public static class EnumberableExtensions
     {
