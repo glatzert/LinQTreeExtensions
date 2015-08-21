@@ -2,6 +2,27 @@
   "locked": false,
   "version": 1,
   "targets": {
+    ".NETFramework,Version=v3.5": {
+      "ZDV.LinQ.Hierarchy/1.0.0": {}
+    },
+    ".NETFramework,Version=v4.5": {
+      "ZDV.LinQ.Hierarchy/1.0.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.0.0",
+          "System.Collections": "4.0.0",
+          "System.Linq": "4.0.0",
+          "System.Runtime": "4.0.20"
+        },
+        "compile": {
+          "lib/dotnet/ZDV.LinQ.Hierarchy.dll": {},
+          "lib/dotnet/ZDV.LinQ.Tree.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/ZDV.LinQ.Hierarchy.dll": {},
+          "lib/dotnet/ZDV.LinQ.Tree.dll": {}
+        }
+      }
+    },
     ".NETPlatform,Version=v5.0": {
       "Microsoft.CSharp/4.0.0": {
         "dependencies": {
@@ -214,6 +235,22 @@
         },
         "compile": {
           "ref/dotnet/System.Threading.Tasks.dll": {}
+        }
+      },
+      "ZDV.LinQ.Hierarchy/1.0.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.0.0",
+          "System.Collections": "4.0.0",
+          "System.Linq": "4.0.0",
+          "System.Runtime": "4.0.20"
+        },
+        "compile": {
+          "lib/dotnet/ZDV.LinQ.Hierarchy.dll": {},
+          "lib/dotnet/ZDV.LinQ.Tree.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/ZDV.LinQ.Hierarchy.dll": {},
+          "lib/dotnet/ZDV.LinQ.Tree.dll": {}
         }
       }
     }
@@ -997,14 +1034,32 @@
         "System.Threading.Tasks.4.0.0.nupkg.sha512",
         "System.Threading.Tasks.nuspec"
       ]
+    },
+    "ZDV.LinQ.Hierarchy/1.0.0": {
+      "sha512": "EJlWboNLAeyc+iCk9K6McpOfejuOU5nHjv18pjySwbo1dyPmmLoEo7JW1HD1AkXtUC1AWAKhp3PxFoSoxmdoGQ==",
+      "files": [
+        "lib/dotnet/ZDV.LinQ.Hierarchy.dll",
+        "lib/dotnet/ZDV.LinQ.Hierarchy.xml",
+        "lib/dotnet/ZDV.LinQ.Tree.dll",
+        "lib/dotnet/ZDV.LinQ.Tree.xml",
+        "ZDV.LinQ.Hierarchy.1.0.0.nupkg",
+        "ZDV.LinQ.Hierarchy.1.0.0.nupkg.sha512",
+        "ZDV.LinQ.Hierarchy.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
-    "": [
-      "System.Runtime >= 4.0.20-*",
-      "Microsoft.CSharp >= 4.0.0-*"
+    "": [],
+    ".NETFramework,Version=v3.5": [
+      "fx/System.Collections ",
+      "fx/System.LinQ "
+    ],
+    ".NETFramework,Version=v4.5": [
+      "fx/System.Collections ",
+      "fx/System.LinQ "
     ],
     ".NETPlatform,Version=v5.0": [
+      "Microsoft.CSharp >= 4.0.0",
       "System.Collections >= 4.0.0",
       "System.Linq >= 4.0.0"
     ]
