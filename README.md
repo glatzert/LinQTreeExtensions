@@ -4,6 +4,10 @@ Tree traversal extensions for LinQ
 ##ZDV.LinQ.Hierarchy
 This can be used for traversing hierarchies where each node knows its parent and/or children.
 
+```
+Grab it from nuget: Install-Package ZDV.LinQ.Hierarchy
+```
+
 Currently supported _static_ methods:
 
 - HierarchyWalker.Ancestors(startNode, parentSelector, [includeSelf])
