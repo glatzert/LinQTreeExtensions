@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.1-*",
+  "version": "1.0.2",
   "description": "ZDV.LinQ.Hierarchy Class Library",
   "title": "LinQ Hierarchy Extensions",
   "authors": [ "Thomas Glatzer, Johannes Gutenberg University Mainz" ],
@@ -12,16 +12,10 @@
   },
 
   "frameworks": {
-    "net35": {
-      "frameworkAssemblies": {
-        "System.Collections": { },
-        "System.LinQ": { }
-      }
-    },
     "net45": {
       "frameworkAssemblies": {
-        "System.Collections": { },
-        "System.LinQ": { }
+        "System.Collections": "4.0.0.0",
+        "System.Linq": "4.0.0.0"
       }
     },
     "dotnet": {
@@ -30,8 +24,7 @@
         "System.Collections": "4.0.0",
         "System.Linq": "4.0.0"
       },
-      "frameworkAssemblies": {
-      }
+      "frameworkAssemblies": { }
     }
   }
 }

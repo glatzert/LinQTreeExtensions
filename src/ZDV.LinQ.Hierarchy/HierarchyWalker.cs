@@ -7,7 +7,7 @@ namespace ZDV.LinQ.Hierarchy
 {
     public static class HierarchyWalker
     {
-        public static IEnumerable<TResult> Ancestors<TResult>(TResult startNode, Func<TResult, TResult> parentSelector, bool includeSelf = false)
+        public static IEnumerable<TNode> Ancestors<TNode>(TNode startNode, Func<TNode, TNode> parentSelector, bool includeSelf = false)
         {
             var currentNode = includeSelf ? startNode : parentSelector(startNode);
             while (currentNode != null)
@@ -17,8 +17,8 @@ namespace ZDV.LinQ.Hierarchy
             }
         }
 
-        public static IEnumerable<TResult> Descendants<TResult>(TResult startNode,
-            Func<TResult, IEnumerable<TResult>> childSelector, bool includeSelf = false,
+        public static IEnumerable<TNode> Descendants<TNode>(TNode startNode,
+            Func<TNode, IEnumerable<TNode>> childSelector, bool includeSelf = false,
             DescendStrategy strategy = DescendStrategy.DepthFirst)
         {
             switch (strategy)
@@ -32,21 +32,25 @@ namespace ZDV.LinQ.Hierarchy
             }
         }
 
-        private static IEnumerable<TResult> DepthFirstDescendants<TResult>(TResult startNode,
-            Func<TResult, IEnumerable<TResult>> childSelector, bool includeSelf)
+        private static IEnumerable<TNode> DepthFirstDescendants<TNode>(TNode startNode,
+            Func<TNode, IEnumerable<TNode>> childSelector, bool includeSelf)
         {
             if (includeSelf)
                 yield return startNode;
 
-            foreach (var child in childSelector(startNode))
+            var children = NullSaveFunc(startNode, childSelector);
+            if(children == null)
+                yield break;
+
+            foreach (var child in children.Where(c => c != null))
                 foreach(var node in DepthFirstDescendants(child, childSelector, true))
                     yield return node;
         }
 
-        private static IEnumerable<TResult> BreadthFirstDescendants<TResult>(TResult startNode,
-            Func<TResult, IEnumerable<TResult>> childSelector, bool includeSelf)
+        private static IEnumerable<TNode> BreadthFirstDescendants<TNode>(TNode startNode,
+            Func<TNode, IEnumerable<TNode>> childSelector, bool includeSelf)
         {
-            var queue = new Queue<TResult>();
+            var queue = new Queue<TNode>();
             if (includeSelf)
                 queue.Enqueue(startNode);
             
@@ -60,14 +64,31 @@ namespace ZDV.LinQ.Hierarchy
             }
         }
 
-        private static void EnqueueChildren<TResult>(Queue<TResult> queue, TResult node, Func<TResult, IEnumerable<TResult>> childSelector)
+        private static void EnqueueChildren<TNode>(Queue<TNode> queue, TNode node, Func<TNode, IEnumerable<TNode>> childSelector)
         {
-            foreach (var childNode in childSelector(node))
+            var children = NullSaveFunc(node, childSelector);
+            if (children == null)
+                return;
+
+            foreach (var childNode in children.Where(c => c != null))
                 queue.Enqueue(childNode);
         }
 
-        public static IEnumerable<TResult> Siblings<TResult>(TResult startNode,
-            Func<TResult, TResult> parentSelector, Func<TResult, IEnumerable<TResult>> childSelector,
+        private static TResult NullSaveFunc<TNode, TResult>(TNode node,
+            Func<TNode, TResult> func)
+        {
+            try
+            {
+                return func(node);
+            }
+            catch (NullReferenceException)
+            {
+                return default(TResult);
+            }
+        }
+
+        public static IEnumerable<TNode> Siblings<TNode>(TNode startNode,
+            Func<TNode, TNode> parentSelector, Func<TNode, IEnumerable<TNode>> childSelector,
             bool includeSelf = false)
         {
             var parent = parentSelector(startNode);
@@ -78,26 +99,26 @@ namespace ZDV.LinQ.Hierarchy
                 yield break;
             }
 
-            foreach (var child in childSelector(parent))
+            foreach (var child in childSelector(parent).Where(c => c != null))
                 if (includeSelf || !startNode.Equals(child))
                     yield return child;
         }
 
         #region Aliases
-        public static IEnumerable<TResult> AncestorsAndSelf<TResult>(TResult startNode,
-            Func<TResult, TResult> parentSelector)
+        public static IEnumerable<TNode> AncestorsAndSelf<TNode>(TNode startNode,
+            Func<TNode, TNode> parentSelector)
         {
             return Ancestors(startNode, parentSelector, true);
         }
 
-        public static IEnumerable<TResult> DescendantsAndSelf<TResult>(TResult startNode,
-            Func<TResult, IEnumerable<TResult>> childSelector)
+        public static IEnumerable<TNode> DescendantsAndSelf<TNode>(TNode startNode,
+            Func<TNode, IEnumerable<TNode>> childSelector)
         {
             return Descendants(startNode, childSelector, true);
         }
 
-        public static IEnumerable<TResult> SiblingsAndSelf<TResult>(TResult startNode,
-            Func<TResult, TResult> parentSelector, Func<TResult, IEnumerable<TResult>> childSelector)
+        public static IEnumerable<TNode> SiblingsAndSelf<TNode>(TNode startNode,
+            Func<TNode, TNode> parentSelector, Func<TNode, IEnumerable<TNode>> childSelector)
         {
             return Siblings(startNode, parentSelector, childSelector, true);
         }
